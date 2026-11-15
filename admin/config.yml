@@ -8,6 +8,7 @@ backend:
   name: github
   repo: Evoolo/fux-media-website
   branch: main
+  base_url: https://fux-media-cms-auth.fux-media.workers.dev
 
 # With `npm run cms` running, changes are written straight to the files on
 # this computer and no login is needed. Ignored on the live site.
