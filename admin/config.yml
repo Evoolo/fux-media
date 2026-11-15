@@ -1,0 +1,197 @@
+# Decap CMS for FUX Media & Marketing. Opens at /admin.
+#
+# Local editing:  npm run cms   (in a second terminal, next to npm run dev)
+# Live editing:   needs the project in a Git repository. Set `repo` below
+#                 and set up the login (see README.md, "Editing content").
+
+backend:
+  name: github
+  repo: Evoolo/fux-media-website
+  branch: main
+
+# With `npm run cms` running, changes are written straight to the files on
+# this computer and no login is needed. Ignored on the live site.
+local_backend: true
+
+locale: de
+site_url: https://evoolo.github.io/fux-media/
+media_folder: public/uploads
+public_folder: /uploads
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+# Shared field: headline lines. The orange full stop is added by the site.
+headline: &headline
+  label: Überschrift
+  name: lines
+  widget: list
+  hint: Eine Zeile pro Eintrag, mit Komma getrennt. Ohne Punkt am Ende, der orange Punkt kommt automatisch.
+
+collections:
+  - name: blog
+    label: Blog
+    label_singular: Beitrag
+    folder: content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} ({{date}})"
+    sortable_fields: [date, title]
+    fields:
+      - { label: Titel, name: title, widget: string }
+      - { label: Datum, name: date, widget: datetime, format: YYYY-MM-DD, date_format: DD.MM.YYYY, time_format: false, default: "{{now}}" }
+      - { label: Kurztext, name: excerpt, widget: text, required: false, hint: Ein bis zwei Sätze für die Übersicht. }
+      - { label: Titelbild, name: cover, widget: image, required: false }
+      - { label: Entwurf, name: draft, widget: boolean, default: false, hint: Entwürfe erscheinen nicht auf der Seite. }
+      - { label: Text, name: body, widget: markdown }
+
+  - name: home
+    label: Startseite
+    files:
+      - name: hero
+        label: Einstieg
+        file: content/home/hero.json
+        fields:
+          - *headline
+          - { label: Einleitung, name: lead, widget: text }
+          - { label: Knopf, name: cta, widget: string }
+
+      - name: customers
+        label: Kunden
+        file: content/home/customers.json
+        fields:
+          - { label: Zeile über den Logos, name: label, widget: string }
+          - label: Kunden
+            label_singular: Kunde
+            name: items
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Branche, name: line, widget: string }
+              - { label: Logo, name: logo, widget: image, required: false }
+              - { label: Logo auf schwarzem Grund, name: onInk, widget: boolean, default: false, required: false, hint: Für Logos mit weißer oder sehr heller Schrift. }
+              - { label: Webseite, name: url, widget: string }
+              - { label: Instagram-Profil, name: instagram, widget: string, required: false }
+
+      - name: reels
+        label: Reels
+        file: content/home/reels.json
+        fields:
+          - *headline
+          - { label: Einleitung, name: lead, widget: text }
+          - label: Reels
+            label_singular: Reel
+            name: items
+            widget: list
+            summary: "{{fields.customer}}: {{fields.title}}"
+            fields:
+              - { label: Kunde, name: customer, widget: string }
+              - { label: Titel, name: title, widget: string }
+              - { label: Plattform, name: platform, widget: select, options: [Instagram, TikTok, YouTube] }
+              - { label: Video, name: video, widget: file, hint: MP4 im Hochformat 9 zu 16. }
+              - { label: Standbild, name: poster, widget: image, required: false }
+              - { label: Kennzahl, name: metric, widget: string, required: false, hint: Nur echte, freigegebene Zahlen. }
+              - { label: Platzhalter, name: placeholder, widget: boolean, default: false, required: false, hint: Zeigt das Schild "Platzhalter" auf dem Video. }
+
+      - name: services
+        label: Leistungen
+        file: content/home/services.json
+        fields:
+          - *headline
+          - { label: Knopf, name: cta, widget: string }
+          - label: Leistungen
+            label_singular: Leistung
+            name: items
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Titel, name: title, widget: string }
+              - { label: Kürzel im Bildfeld, name: token, widget: string, hint: "Kurz, zum Beispiel 9:16 oder CMYK." }
+              - { label: Beschreibung, name: description, widget: text }
+
+      - name: process
+        label: Ablauf
+        file: content/home/process.json
+        fields:
+          - *headline
+          - { label: Einleitung, name: lead, widget: text }
+          - label: Schritte
+            label_singular: Schritt
+            name: steps
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Titel, name: title, widget: string }
+              - { label: Beschreibung, name: description, widget: text }
+
+      - name: about
+        label: Über
+        file: content/home/about.json
+        fields:
+          - *headline
+          - { label: Einleitung, name: lead, widget: text }
+          - { label: Porträt, name: portrait, widget: image, required: false }
+          - { label: Bildbeschreibung, name: portraitAlt, widget: string, required: false }
+
+      - name: faq
+        label: Häufige Fragen
+        file: content/home/faq.json
+        fields:
+          - *headline
+          - label: Fragen
+            label_singular: Frage
+            name: items
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { label: Frage, name: question, widget: string }
+              - { label: Antwort, name: answer, widget: text }
+
+      - name: contact
+        label: Kontakt
+        file: content/home/contact.json
+        fields:
+          - *headline
+          - { label: Frage über den Themen, name: topicLabel, widget: string }
+          - { label: Themen, name: topics, widget: list, hint: Mit Komma getrennt. }
+          - { label: Knopf, name: submit, widget: string }
+          - { label: Hinweis neben dem Knopf, name: hint, widget: string }
+
+  - name: pages
+    label: Rechtliches
+    files:
+      - name: impressum
+        label: Impressum
+        file: content/pages/impressum.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Text, name: body, widget: markdown }
+      - name: datenschutz
+        label: Datenschutz
+        file: content/pages/datenschutz.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Text, name: body, widget: markdown }
+
+  - name: settings
+    label: Einstellungen
+    files:
+      - name: general
+        label: Allgemein
+        file: content/settings.json
+        fields:
+          - { label: Seitentitel, name: siteTitle, widget: string, hint: Erscheint im Browser-Tab und bei Google. }
+          - { label: Seitenbeschreibung, name: siteDescription, widget: text }
+          - label: Kontakt
+            name: contact
+            widget: object
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Rolle, name: role, widget: string }
+              - { label: Telefon, name: phone, widget: string }
+              - { label: E-Mail, name: email, widget: string }
+          - { label: Laufband, name: marquee, widget: list, hint: Wörter im Laufband unter dem Einstieg, mit Komma getrennt. }
