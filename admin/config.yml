@@ -94,6 +94,7 @@ collections:
               - { label: Titel, name: title, widget: string }
               - { label: Plattform, name: platform, widget: select, options: [Instagram, TikTok, YouTube] }
               - { label: Video, name: video, widget: file, hint: MP4 im Hochformat 9 zu 16. }
+              - { label: Link zum Reel, name: link, widget: string, required: false, hint: Adresse des Original-Beitrags. }
               - { label: Standbild, name: poster, widget: image, required: false }
               - { label: Kennzahl, name: metric, widget: string, required: false, hint: Nur echte, freigegebene Zahlen. }
               - { label: Platzhalter, name: placeholder, widget: boolean, default: false, required: false, hint: Zeigt das Schild "Platzhalter" auf dem Video. }
