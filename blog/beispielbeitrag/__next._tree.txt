@@ -6,4 +6,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"beispielbeitrag","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"blog","h":96,"c":"$Q2"}]]
-0:{"b":"VzxQOyDqTxRYEmlCj9e3r","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"Qgrz2F9MihWw1XbeVJH-b","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
